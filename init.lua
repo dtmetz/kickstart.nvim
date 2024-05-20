@@ -680,11 +680,10 @@ vim.keymap.set({"n", "v", "i"}, '<C-i>', require('smart-splits').move_cursor_up,
 vim.keymap.set({"n", "v", "i"}, '<C-l>', require('smart-splits').move_cursor_right, {remap=false})
 --vim.keymap.set({"n", "v", "i"}, '<C-\\>', require('smart-splits').move_cursor_previous)
 -- swapping buffers between windows
-vim.keymap.set({"n"}, '<leader><leader>j', require('smart-splits').swap_buf_left)
-vim.keymap.set({"n"}, '<leader><leader>k', require('smart-splits').swap_buf_down)
-vim.keymap.set({"n"}, '<leader><leader>i', require('smart-splits').swap_buf_up)
-vim.keymap.set({"n"}, '<leader><leader>l', require('smart-splits').swap_buf_right)
-
+vim.keymap.set("n", '<leader><leader>j', require('smart-splits').swap_buf_left)
+vim.keymap.set("n", '<leader><leader>k', require('smart-splits').swap_buf_down)
+vim.keymap.set("n", '<leader><leader>i', require('smart-splits').swap_buf_up)
+vim.keymap.set("n", '<leader><leader>l', require('smart-splits').swap_buf_right)
 
 -- Setup globals that I expect to be always available.
 --  See `./lua/tj/globals.lua` for more information.
