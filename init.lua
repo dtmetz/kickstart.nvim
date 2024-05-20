@@ -238,7 +238,12 @@ require('lazy').setup({
       -- add any options here
     },
     lazy = false,
-  }
+  },
+
+  {
+    'mrjones2014/smart-splits.nvim',
+    lazy = false,
+  },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -254,6 +259,18 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 }, {})
+
+local function my_on_attach(bufnr)
+  print('Starting  my_on_attach')
+  local api = require "nvim-tree.api"
+  api.config.mappings.default_on_attach(bufnr)
+  vim.keymap.del('n', '<C-k>', {buffer = bufnr})
+end
+
+-- pass to setup along with your other options
+require("nvim-tree").setup {
+  on_attach = my_on_attach,
+}
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -465,7 +482,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  --nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -647,6 +664,27 @@ vim.keymap.set("i", "<C-S-;>", "<C-o>:q<CR>", { silent = true }) -- On blank lin
 vim.keymap.set("n", "<C-S-;>", ":q<CR>", { silent = true })
 
 vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Show diagnostic errors'} )
+
+-- recommended mappings
+-- resizing splits
+-- these keymaps will also accept a range,
+-- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+vim.keymap.set({"n", "v", "i"}, '<A-j>', require('smart-splits').resize_left, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-k>', require('smart-splits').resize_down, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-i>', require('smart-splits').resize_up, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-l>', require('smart-splits').resize_right, {remap=false})
+-- moving between splits
+vim.keymap.set({"n", "v", "i"}, '<C-j>', require('smart-splits').move_cursor_left, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<C-k>', require('smart-splits').move_cursor_down)
+vim.keymap.set({"n", "v", "i"}, '<C-i>', require('smart-splits').move_cursor_up, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<C-l>', require('smart-splits').move_cursor_right, {remap=false})
+--vim.keymap.set({"n", "v", "i"}, '<C-\\>', require('smart-splits').move_cursor_previous)
+-- swapping buffers between windows
+vim.keymap.set({"n"}, '<leader><leader>j', require('smart-splits').swap_buf_left)
+vim.keymap.set({"n"}, '<leader><leader>k', require('smart-splits').swap_buf_down)
+vim.keymap.set({"n"}, '<leader><leader>i', require('smart-splits').swap_buf_up)
+vim.keymap.set({"n"}, '<leader><leader>l', require('smart-splits').swap_buf_right)
+
 
 -- Setup globals that I expect to be always available.
 --  See `./lua/tj/globals.lua` for more information.
