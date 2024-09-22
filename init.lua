@@ -244,7 +244,10 @@ require('lazy').setup({
     'mrjones2014/smart-splits.nvim',
     lazy = false,
   },
-
+  {
+    'LhKipp/nvim-nu',
+    lazy = false,
+  },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -371,9 +374,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 
-if vim.loop.os_uname().sysname == "Windows_NT" then -- Prevents weird crashes when loading treesitter may need to install clang
-  require('nvim-treesitter.install').compilers = { "clang" }
-end
+-- if vim.loop.os_uname().sysname == "Windows_NT" then -- Prevents weird crashes when loading treesitter may need to install clang
+require('nvim-treesitter.install').compilers = { "clang" }
+-- end
 
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
@@ -669,15 +672,15 @@ vim.keymap.set('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { de
 -- resizing splits
 -- these keymaps will also accept a range,
 -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
-vim.keymap.set({"n", "v", "i"}, '<A-j>', require('smart-splits').resize_left, {remap=false})
-vim.keymap.set({"n", "v", "i"}, '<A-k>', require('smart-splits').resize_down, {remap=false})
-vim.keymap.set({"n", "v", "i"}, '<A-i>', require('smart-splits').resize_up, {remap=false})
-vim.keymap.set({"n", "v", "i"}, '<A-l>', require('smart-splits').resize_right, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-S-j>', require('smart-splits').resize_left, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-S-k>', require('smart-splits').resize_down, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-S-i>', require('smart-splits').resize_up, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-S-l>', require('smart-splits').resize_right, {remap=false})
 -- moving between splits
-vim.keymap.set({"n", "v", "i"}, '<C-j>', require('smart-splits').move_cursor_left, {remap=false})
-vim.keymap.set({"n", "v", "i"}, '<C-k>', require('smart-splits').move_cursor_down)
-vim.keymap.set({"n", "v", "i"}, '<C-i>', require('smart-splits').move_cursor_up, {remap=false})
-vim.keymap.set({"n", "v", "i"}, '<C-l>', require('smart-splits').move_cursor_right, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-j>', require('smart-splits').move_cursor_left, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-k>', require('smart-splits').move_cursor_down)
+vim.keymap.set({"n", "v", "i"}, '<A-i>', require('smart-splits').move_cursor_up, {remap=false})
+vim.keymap.set({"n", "v", "i"}, '<A-l>', require('smart-splits').move_cursor_right, {remap=false})
 --vim.keymap.set({"n", "v", "i"}, '<C-\\>', require('smart-splits').move_cursor_previous)
 -- swapping buffers between windows
 vim.keymap.set("n", '<leader><leader>j', require('smart-splits').swap_buf_left)
@@ -687,6 +690,11 @@ vim.keymap.set("n", '<leader><leader>l', require('smart-splits').swap_buf_right)
 
 -- shift+arror selection
 vim.o.keymodel = 'startsel'
+
+-- Navigation to match Visual Studio
+vim.keymap.set({"n", "v", "i"}, '<C-->', require('smart-splits').move_cursor_right, {remap=false})
+ vim.keymap.set({"n", "v", "i"}, '<C-S-->', require('smart-splits').move_cursor_right, {remap=false})
+
 
 -- Setup globals that I expect to be always available.
 --  See `./lua/tj/globals.lua` for more information.
